@@ -30,7 +30,13 @@ class CallbackHandler(tornado.web.RequestHandler):
         print(content)
         print("from: " + content["from"])
 
-        http_client = AsyncHTTPClient()        
+        http_client = AsyncHTTPClient()
+        
+        if content["text"] in message.send_text:
+            send_text = message.send_text[content["text"]]
+        else:
+            send_text = message.send_text["default"]
+
         send_data = {
             "to": [content["from"]],
             "toChannel": options.event_to_channel_id,
@@ -38,7 +44,7 @@ class CallbackHandler(tornado.web.RequestHandler):
             "content": {
               "contentType": message.content_type["text_messages"],
               "toType": 1,
-              "text": "Hello, Walter at Hex Networks!"
+              "text": send_text
             }          
         }
         print(send_data)
