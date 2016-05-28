@@ -3,6 +3,7 @@ import tornado.web
 import urllib
 from tornado.httpclient import AsyncHTTPClient, HTTPRequest
 from tornado.options import define, options
+import message
 
 define("channel_url", default="http://127.0.0.1", help="chennel url", type=str)
 define("event_path", default="/v1/event", help="event path", type=str)
@@ -35,7 +36,7 @@ class CallbackHandler(tornado.web.RequestHandler):
             "toChannel": options.event_to_channel_id,
             "eventType": options.event_type,
             "content": {
-              "contentType": 1,
+              "contentType": message.content_type["text_messages"],
               "toType": 1,
               "text": "Hello, Walter at Hex Networks!"
             }          
