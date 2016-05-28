@@ -60,14 +60,14 @@ class CallbackHandler(tornado.web.RequestHandler):
                 "toChannel": options.event_to_channel_id,
                 "eventType": options.event_type,
                 "content": {
-                  "contentType": message.content_type["rich_messages"],
-                  "toType": 1,
-                  "contentMetadata": {
-                      "DOWNLOAD_URL": message.image_link[content["text"] + "_logo"],
-                      "SPEC_REV": "1",
-                      "ALT_TEXT": "Please visit our homepage and the item page you wish.",
-                      "MARKUP_JSON": json.dumps(markup_json)
-                  }
+                    "contentType": message.content_type["rich_messages"],
+                    "toType": 1,
+                    "contentMetadata": {
+                        "DOWNLOAD_URL": message.image_link[content["text"] + "_logo"],
+                        "SPEC_REV": "1",
+                        "ALT_TEXT": "Please visit our homepage and the item page you wish.",
+                        "MARKUP_JSON": json.dumps(markup_json)
+                    }
                 }
             }
         else:
@@ -77,9 +77,9 @@ class CallbackHandler(tornado.web.RequestHandler):
                 "toChannel": options.event_to_channel_id,
                 "eventType": options.event_type,
                 "content": {
-                  "contentType": message.content_type["text_messages"],
-                  "toType": 1,
-                  "text": send_text
+                    "contentType": message.content_type["text_messages"],
+                    "toType": 1,
+                    "text": send_text
                 }          
             }
             
