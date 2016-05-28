@@ -34,19 +34,55 @@ class CallbackHandler(tornado.web.RequestHandler):
         
         if content["text"] in message.send_text:
             send_text = message.send_text[content["text"]]
+            markup_json = {
+                "canvas": {
+                    "width": 460,
+                    "height": 368,
+                    "initialScene": "scene1"
+                },
+                "images": {
+                    "image1": {
+                        "x": 0,
+                        "y": 0,
+                        "w": 460,
+                        "h": 368
+                    }
+                },
+                "actions": {
+                },
+                "scenes": {
+                }
+            }
+
+            print(message.content_type["rich_messages"])
+            send_data = {
+                "to": [content["from"]],
+                "toChannel": options.event_to_channel_id,
+                "eventType": options.event_type,
+                "content": {
+                  "contentType": message.content_type["rich_messages"],
+                  "toType": 1,
+                  "contentMetadata": {
+                      "DOWNLOAD_URL": message.image_link[content["text"] + "_logo"],
+                      "SPEC_REV": "1",
+                      "ALT_TEXT": "Please visit our homepage and the item page you wish.",
+                      "MARKUP_JSON": json.dumps(markup_json)
+                  }
+                }
+            }
         else:
             send_text = message.send_text["default"]
-
-        send_data = {
-            "to": [content["from"]],
-            "toChannel": options.event_to_channel_id,
-            "eventType": options.event_type,
-            "content": {
-              "contentType": message.content_type["text_messages"],
-              "toType": 1,
-              "text": send_text
-            }          
-        }
+            send_data = {
+                "to": [content["from"]],
+                "toChannel": options.event_to_channel_id,
+                "eventType": options.event_type,
+                "content": {
+                  "contentType": message.content_type["text_messages"],
+                  "toType": 1,
+                  "text": send_text
+                }          
+            }
+            
         print(send_data)
 
         data = urllib.urlencode(send_data)

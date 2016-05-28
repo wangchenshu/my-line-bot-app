@@ -11,9 +11,10 @@ content_type = {
 }
 
 image_link = {
-    "h4_logo": "https://s3-ap-northeast-1.amazonaws.com/walter-s3/line-bot/image/h4_logo.jpg",
+    "h4_logo": "https://s3-ap-northeast-1.amazonaws.com/walter-s3/line-bot/image/h4-logo",
     "emacs_logo_black": "https://s3-ap-northeast-1.amazonaws.com/walter-s3/line-bot/image/11813376_842684179173214_3987034703356373870_n.jpg",
-    "emacs_logo_white": "https://s3-ap-northeast-1.amazonaws.com/walter-s3/line-bot/image/emacs_logo_large.png"
+    "emacs_logo": "https://s3-ap-northeast-1.amazonaws.com/walter-s3/line-bot/image/emacs-logo",
+    "debian_logo_small": "https://s3-ap-northeast-1.amazonaws.com/walter-s3/line-bot/image/openlogo-100.png"
 }
 
 send_text = {
