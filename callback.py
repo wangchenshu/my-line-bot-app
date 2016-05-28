@@ -4,6 +4,14 @@ import urllib
 from tornado.httpclient import AsyncHTTPClient, HTTPRequest
 from tornado.options import define, options
 
+define("channel_url", default="http://127.0.0.1", help="chennel url", type=str)
+define("event_path", default="/v1/event", help="event path", type=str)
+define("channel_id", default="", help="", type=str)
+define("channel_secret", default="", help="", type=str)
+define("channel_mid", default="", help="", type=str)
+define("event_to_channel_id", default="", help="", type=int)
+define("event_type", default="", help="", type=str)
+
 class CallbackHandler(tornado.web.RequestHandler):
     def handle_request(self, response):
         if response.error:
@@ -43,6 +51,7 @@ class CallbackHandler(tornado.web.RequestHandler):
             'X-Line-Trusted-User-With-ACL': options.channel_mid
         }
         print(headers)
+
         http_client.fetch(
             HTTPRequest(url, 'POST', headers, body=json.dumps(send_data)),
             self.handle_request
