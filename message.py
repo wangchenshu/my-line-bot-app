@@ -18,7 +18,7 @@ image_link = {
 }
 
 send_text = {
-    "default": "Welcome to Hex Networks!",
+    "default": "Welcome to h4!",
     "h4": "Welcome to h4!",
     "emacs": "Welcome to Emacs Taiwan!"
 }
