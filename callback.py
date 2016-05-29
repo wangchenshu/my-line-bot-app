@@ -1,3 +1,6 @@
+#! /usr/bin/env python
+#-*- coding: utf-8 -*-
+
 import json
 import tornado.web
 import urllib
@@ -28,26 +31,41 @@ class CallbackHandler(tornado.web.RequestHandler):
     @gen.coroutine
     def post(self):
         json_data = json.loads(self.request.body)
+        content = json_data['result'][0]["content"]
 
-        content = json_data['result'][0]["content"]        
         print(content)
         print("from: " + content["from"])
 
         http_client = AsyncHTTPClient()
-
         conent_text = content["text"].lower()
         send_text = message.send_text["default"]
 
-        if conent_text in message.send_text:
+        if conent_text in message.image_link:
             send_text = message.send_text[conent_text]
             send_data = message.create_rich_messages(
                 [content["from"]],
                 options.event_to_channel_id,
                 options.event_type,
                 "rich_messages",
-                message.image_link[conent_text + "_logo"],
-                message.image_link[conent_text + "_logo"],
+                message.image_link[conent_text],
+                message.image_link[conent_text],
                 json
+            )
+        elif "h4" in conent_text and ("where" in conent_text or u"如何去" in conent_text):
+            send_data = message.create_text_message(
+                [content["from"]],
+                options.event_to_channel_id,
+                options.event_type,
+                "text_messages",
+                message.send_text["where_is_h4"]
+            )
+        elif "h4" in conent_text and ("doing" in conent_text or u"做什麼" in conent_text):
+            send_data = message.create_text_message(
+                [content["from"]],
+                options.event_to_channel_id,
+                options.event_type,
+                "text_messages",
+                message.send_text["what_are_h4_people_do"]
             )
         else:
             send_data = message.create_text_message(
@@ -83,25 +101,11 @@ class CallbackHandler(tornado.web.RequestHandler):
         user_name = user_profile["contacts"][0]["displayName"]
 
         if "text" in send_data["content"]:
-            send_data["content"]["text"] +=  ", " + user_name
+            send_data["content"]["text"] = "@" + user_name + ": " + send_data["content"]["text"]
 
-        send_message_response, send_message_response2 = yield [
-            http_client.fetch(
-                HTTPRequest(url, 'POST', headers, body=json.dumps(send_data))
-            ),
-            http_client.fetch(HTTPRequest(
-                url,
-                'POST',
-                headers,
-                body=json.dumps(message.create_text_message(
-                    [content["from"]],
-                    options.event_to_channel_id,
-                    options.event_type,
-                    "text_messages",
-                    message.send_text["how_are_you_today"])
-                ))
-            )
-        ]
+        send_message_response = yield http_client.fetch(
+            HTTPRequest(url, 'POST', headers, body=json.dumps(send_data))
+        )
 
         if user_profile_response.error:
             print "Error:", user_profile_response.error
