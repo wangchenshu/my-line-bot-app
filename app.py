@@ -31,8 +31,6 @@ def main():
     tornado.options.parse_config_file("./server.conf")
     #tornado.options.parse_command_line()
     application = tornado.web.Application([
-        (r"/", HelloHandler),
-        (r"/user", UserHandler),
         (r"/callback", CallbackHandler)
     ])
     http_server = tornado.httpserver.HTTPServer(application)
