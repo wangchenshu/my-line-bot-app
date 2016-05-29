@@ -51,7 +51,10 @@ class CallbackHandler(tornado.web.RequestHandler):
                 message.image_link[conent_text],
                 json
             )
-        elif "h4" in conent_text and ("where" in conent_text or u"如何去" in conent_text):
+        elif "h4" in conent_text and \
+            ("where" in conent_text or "go" in conent_text or "going" in conent_text or \
+             u"如何去" in conent_text or u"怎麼去" in conent_text                      or \
+             u"如何走" in conent_text or u"怎麼走" in conent_text):
             send_data = message.create_text_message(
                 [content["from"]],
                 options.event_to_channel_id,
@@ -66,6 +69,22 @@ class CallbackHandler(tornado.web.RequestHandler):
                 options.event_type,
                 "text_messages",
                 message.send_text["what_are_h4_people_do"]
+            )
+        elif "h4" in conent_text and u"由來" in conent_text:
+            send_data = message.create_text_message(
+                [content["from"]],
+                options.event_to_channel_id,
+                options.event_type,
+                "text_messages",
+                message.send_text["h4_beginning"]
+            )
+        elif "contact" in conent_text or u"聯絡" in conent_text:
+            send_data = message.create_text_message(
+                [content["from"]],
+                options.event_to_channel_id,
+                options.event_type,
+                "text_messages",
+                message.send_text["contact_us"]
             )
         else:
             send_data = message.create_text_message(
