@@ -44,7 +44,7 @@ class CallbackHandler(tornado.web.RequestHandler):
                 [content["from"]],
                 options.event_to_channel_id,
                 options.event_type,
-                message.content_type["rich_messages"],
+                "rich_messages",
                 message.image_link[conent_text + "_logo"],
                 message.image_link[conent_text + "_logo"],
                 json
@@ -54,7 +54,7 @@ class CallbackHandler(tornado.web.RequestHandler):
                 [content["from"]],
                 options.event_to_channel_id,
                 options.event_type,
-                message.content_type["text_messages"],
+                "text_messages",
                 send_text
             )
 
@@ -85,9 +85,23 @@ class CallbackHandler(tornado.web.RequestHandler):
         if "text" in send_data["content"]:
             send_data["content"]["text"] +=  ", " + user_name
 
-        send_message_response = yield http_client.fetch(
-            HTTPRequest(url, 'POST', headers, body=json.dumps(send_data))
-        )
+        send_message_response, send_message_response2 = yield [
+            http_client.fetch(
+                HTTPRequest(url, 'POST', headers, body=json.dumps(send_data))
+            ),
+            http_client.fetch(HTTPRequest(
+                url,
+                'POST',
+                headers,
+                body=json.dumps(message.create_text_message(
+                    [content["from"]],
+                    options.event_to_channel_id,
+                    options.event_type,
+                    "text_messages",
+                    message.send_text["how_are_you_today"])
+                ))
+            )
+        ]
 
         if user_profile_response.error:
             print "Error:", user_profile_response.error
