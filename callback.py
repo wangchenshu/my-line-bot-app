@@ -37,24 +37,24 @@ class CallbackHandler(tornado.web.RequestHandler):
         print("from: " + content["from"])
 
         http_client = AsyncHTTPClient()
-        conent_text = content["text"].lower()
+        content_text = content["text"].lower()
         send_text = message.send_text["default"]
 
-        if conent_text in message.image_link:
-            send_text = message.send_text[conent_text]
+        if content_text in message.image_link:
+            send_text = message.send_text[content_text]
             send_data = message.create_rich_messages(
                 [content["from"]],
                 options.event_to_channel_id,
                 options.event_type,
                 "rich_messages",
-                message.image_link[conent_text],
-                message.image_link[conent_text],
+                message.image_link[content_text],
+                message.image_link[content_text],
                 json
             )
-        elif "h4" in conent_text and \
-            ("where" in conent_text or "go" in conent_text or "going" in conent_text or \
-             u"如何去" in conent_text or u"怎麼去" in conent_text                      or \
-             u"如何走" in conent_text or u"怎麼走" in conent_text):
+        elif "h4" in content_text and \
+            ("where" in content_text or "go" in content_text or "going" in content_text or \
+             u"如何去" in content_text or u"怎麼去" in content_text                      or \
+             u"如何走" in content_text or u"怎麼走" in content_text):
             send_data = message.create_text_message(
                 [content["from"]],
                 options.event_to_channel_id,
@@ -62,7 +62,7 @@ class CallbackHandler(tornado.web.RequestHandler):
                 "text_messages",
                 message.send_text["where_is_h4"]
             )
-        elif "h4" in conent_text and ("doing" in conent_text or u"做什麼" in conent_text):
+        elif "h4" in content_text and ("doing" in content_text or u"做什麼" in content_text):
             send_data = message.create_text_message(
                 [content["from"]],
                 options.event_to_channel_id,
@@ -70,7 +70,7 @@ class CallbackHandler(tornado.web.RequestHandler):
                 "text_messages",
                 message.send_text["what_are_h4_people_do"]
             )
-        elif "h4" in conent_text and u"由來" in conent_text:
+        elif "h4" in content_text and u"由來" in content_text:
             send_data = message.create_text_message(
                 [content["from"]],
                 options.event_to_channel_id,
@@ -78,7 +78,7 @@ class CallbackHandler(tornado.web.RequestHandler):
                 "text_messages",
                 message.send_text["h4_beginning"]
             )
-        elif "contact" in conent_text or u"聯絡" in conent_text:
+        elif "contact" in content_text or u"聯絡" in content_text:
             send_data = message.create_text_message(
                 [content["from"]],
                 options.event_to_channel_id,
