@@ -6,8 +6,8 @@ from tornado.options import define, options
 from tornado import gen
 import message
 
-define("channel_url", default="http://127.0.0.1", help="chennel url", type=str)
-define("event_path", default="/v1/event", help="event path", type=str)
+define("channel_url", default="", help="chennel url", type=str)
+define("event_path", default="", help="event path", type=str)
 define("channel_id", default="", help="", type=str)
 define("channel_secret", default="", help="", type=str)
 define("channel_mid", default="", help="", type=str)
