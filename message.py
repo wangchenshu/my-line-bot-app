@@ -1,3 +1,5 @@
+#! /usr/bin/env python
+#-*- coding: utf-8 -*-
 
 content_type = {
     "text_messages": 1,
@@ -11,17 +13,21 @@ content_type = {
 }
 
 image_link = {
-    "h4_logo": "https://s3-ap-northeast-1.amazonaws.com/walter-s3/line-bot/image/h4-logo",
-    "emacs_logo_black": "https://s3-ap-northeast-1.amazonaws.com/walter-s3/line-bot/image/11813376_842684179173214_3987034703356373870_n.jpg",
-    "emacs_logo": "https://s3-ap-northeast-1.amazonaws.com/walter-s3/line-bot/image/emacs-logo",
-    "debian_logo_small": "https://s3-ap-northeast-1.amazonaws.com/walter-s3/line-bot/image/openlogo-100.png"
+    "h4": "https://s3-ap-northeast-1.amazonaws.com/walter-s3/line-bot/image/h4-logo",
+    "emacs": "https://s3-ap-northeast-1.amazonaws.com/walter-s3/line-bot/image/emacs-logo"
 }
 
 send_text = {
     "default": "Welcome to h4!",
     "h4": "Welcome to h4!",
     "emacs": "Welcome to Emacs Taiwan!",
-    "how_are_you_today": "How are you today?"
+    "how_are_you_today": "How are you today?",
+    "where_is_h4": u"田中園光華店 / 台北市中正區臨沂街1號",
+    "what_are_h4_people_do": u"""
+        1. 討論 web, network, programming, system, blablah….
+        2. 交流系統工具 & 使用技巧
+        3. 八卦
+    """
 }
 
 def create_text_message(to, event_to_channel_id, event_type, content_type_key, send_text):
