@@ -51,42 +51,22 @@ class CallbackHandler(tornado.web.RequestHandler):
                 message.image_link[content_text],
                 json
             )
-        elif "h4" in content_text and \
-            ("where" in content_text or "go" in content_text or "going" in content_text or \
-             u"如何去" in content_text or u"怎麼去" in content_text                      or \
-             u"如何走" in content_text or u"怎麼走" in content_text):
-            send_data = message.create_text_message(
-                [content["from"]],
-                options.event_to_channel_id,
-                options.event_type,
-                "text_messages",
-                message.send_text["where_is_h4"]
-            )
-        elif "h4" in content_text and ("doing" in content_text or u"做什麼" in content_text):
-            send_data = message.create_text_message(
-                [content["from"]],
-                options.event_to_channel_id,
-                options.event_type,
-                "text_messages",
-                message.send_text["what_are_h4_people_do"]
-            )
-        elif "h4" in content_text and u"由來" in content_text:
-            send_data = message.create_text_message(
-                [content["from"]],
-                options.event_to_channel_id,
-                options.event_type,
-                "text_messages",
-                message.send_text["h4_beginning"]
-            )
-        elif "contact" in content_text or u"聯絡" in content_text:
-            send_data = message.create_text_message(
-                [content["from"]],
-                options.event_to_channel_id,
-                options.event_type,
-                "text_messages",
-                message.send_text["contact_us"]
-            )
         else:
+            if "h4" in content_text and                                                       \
+               ("where" in content_text or "go" in content_text or "going" in content_text or \
+                u"如何去" in content_text or u"怎麼去" in content_text or                     \
+                u"如何走" in content_text or u"怎麼走" in content_text):
+                send_text = message.send_text["where_is_h4"]
+
+            elif "h4" in content_text and ("doing" in content_text or u"做什麼" in content_text):
+                send_text = message.send_text["what_are_h4_people_do"]
+
+            elif "h4" in content_text and u"由來" in content_text:
+                send_text = message.send_text["h4_beginning"]
+
+            elif "contact" in content_text or u"聯絡" in content_text:
+                send_text = message.send_text["contact_us"]
+
             send_data = message.create_text_message(
                 [content["from"]],
                 options.event_to_channel_id,
