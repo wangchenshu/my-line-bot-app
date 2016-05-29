@@ -77,30 +77,43 @@ class CallbackHandler(tornado.web.RequestHandler):
 
         print(send_data)
 
-        user_profile_response = yield http_client.fetch(
-            HTTPRequest(
-                options.channel_url           + \
-                options.get_user_profile_path + \
-                "?mids=" + content["from"],
-                'GET',
-                headers
+        try:
+            user_profile_response = yield http_client.fetch(
+                HTTPRequest(
+                    options.channel_url           + \
+                    options.get_user_profile_path + \
+                    "?mids=" + content["from"],
+                    'GET',
+                    headers
+                )
             )
-        )
+            user_profile = json.loads(user_profile_response.body)
+            user_name = user_profile["contacts"][0]["displayName"]
 
-        user_profile = json.loads(user_profile_response.body)
-        user_name = user_profile["contacts"][0]["displayName"]
+        except tornado.httpclient.HTTPError as e:
+            print("ex: " + str(e))
 
+        except Exception as e:
+            print("Error: " + str(e))
+        
         if "text" in send_data["content"]:
             send_data["content"]["text"] = "@" + user_name + ": " + send_data["content"]["text"]
 
-        send_message_response = yield http_client.fetch(
-            HTTPRequest(url, 'POST', headers, body=json.dumps(send_data))
-        )
+        try:
+            send_message_response = yield http_client.fetch(
+                HTTPRequest(url, 'POST', headers, body=json.dumps(send_data))
+            )
+    
+            if user_profile_response.error:
+                print "Error:", user_profile_response.error
+            else:
+                print 'user profiles: ' + user_profile_response.body + '\n' + \
+                      'send_message_response: ' + send_message_response.body
 
-        if user_profile_response.error:
-            print "Error:", user_profile_response.error
-        else:
-            print 'user profiles: ' + user_profile_response.body + '\n' + \
-                  'send_message_response: ' + send_message_response.body
+        except tornado.httpclient.HTTPError as e:
+            print("ex: " + str(e))
 
+        except Exception as e:
+            print("Error: " + str(e))
+                    
         self.write("callback")
