@@ -26,3 +26,6 @@
 
 ### event_type
 > Event type
+
+### get_user_profile_path
+> Get user profile path: /v1/profiles
