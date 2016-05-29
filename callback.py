@@ -36,21 +36,56 @@ class CallbackHandler(tornado.web.RequestHandler):
             send_text = message.send_text[content["text"]]
             markup_json = {
                 "canvas": {
-                    "width": 460,
-                    "height": 368,
+                    "width": 1040,
+                    "height": 1040,
                     "initialScene": "scene1"
                 },
                 "images": {
                     "image1": {
                         "x": 0,
                         "y": 0,
-                        "w": 460,
-                        "h": 368
+                        "w": 1040,
+                        "h": 1040
                     }
                 },
                 "actions": {
+                    "openHomepage": {
+                        "type": "web",
+                        "text": "Open our homepage.",
+                        "params": {
+                            "linkUri": message.image_link[content["text"] + "_logo"] + "/1020"
+                        }
+                                     },
+                      "showItem": {
+                          "type": "web",
+                          "text": "Show item.",
+                          "params": {
+                              "linkUri": message.image_link[content["text"] + "_logo"] + "/1020"
+                          }
+                      }
                 },
                 "scenes": {
+                    "draws": [
+                        {
+                            "image": "image1",
+                            "x": 0,
+                            "y": 0,
+                            "w": 1040,
+                            "h": 1040
+                        }
+                    ],
+                    "listeners": [
+                        {
+                            "type": "touch",
+                            "params": [0, 0, 1040, 350],
+                            "action": "openHomepage"
+                        },
+                        {
+                            "type": "touch",
+                            "params": [0, 350, 1040, 350],
+                            "action": "showItem"
+                        }
+                    ]            
                 }
             }
 
