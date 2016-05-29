@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#!/usr/bin/env python
 #-*- coding: utf-8 -*-
 
 import json
@@ -19,15 +19,6 @@ define("event_type", default="", help="", type=str)
 define("get_user_profile_path", default="", help="", type=str)
 
 class CallbackHandler(tornado.web.RequestHandler):
-    def handle_request(self, response):
-        if response.error:
-            print "Error:", response.error
-        else:            
-            print response.body
-
-    def get(self):
-        self.write("callback")
-
     @gen.coroutine
     def post(self):
         json_data = json.loads(self.request.body)
